@@ -23,7 +23,7 @@ jobs:
         run: |
           flutter run -d "iPhone 15 Pro Max" --debug & 
           FLUTTER_PID=$! 
-          sleep 300 
+          sleep 600 
           pkill -P $FLUTTER_PID
 
 
