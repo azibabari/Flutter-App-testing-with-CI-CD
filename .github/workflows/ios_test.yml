@@ -22,7 +22,9 @@ jobs:
       - name: Build app
         run: |
           flutter run -d "iPhone 15 Pro Max" --debug & 
-          q
+          FLUTTER_PID=$! 
+          sleep 800 
+          pkill -P $FLUTTER_PID
 
 
       - name: Install Dependencies (Maestro, IDB Companion)
