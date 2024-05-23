@@ -21,7 +21,8 @@ jobs:
 
       - name: Build app
         run:  flutter run -d "iPhone 15 Pro Max" --debug
-              q
+              timeout 3m flutter run -d "iPhone 15 Pro Max"
+
 
       - name: Install Dependencies (Maestro, IDB Companion)
         run: |
