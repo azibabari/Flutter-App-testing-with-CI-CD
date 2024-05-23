@@ -23,15 +23,18 @@ jobs:
         run: |
           flutter run -d "iPhone 15 Pro Max" --debug & 
           FLUTTER_PID=$! 
-          sleep 800 
+          sleep 700 
           pkill -P $FLUTTER_PID
 
 
-      - name: Install Dependencies (Maestro, IDB Companion)
+      - name: Install Maestro
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
           export PATH="$PATH":"$HOME/.maestro/bin"
           maestro -v
+          
+      - name: Install Dependencies (Maestro, IDB Companion)
+        run: |
           brew tap facebook/fb
           brew install facebook/fb/idb-companion
 
