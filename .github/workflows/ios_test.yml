@@ -1,47 +1,34 @@
-name: TestIos
+name: Test
 
 on: [push]
 
 jobs:
   test:
-    runs-on: macos-latest
+    runs-on: macos-latest # Use macos for iOS simulator support
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v1
-      with:
-        channel: 'stable'
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2  # Updated to v2
+        with:
+          channel: 'stable'
 
-    - name: Install CocoaPods
-      run: sudo gem install cocoapods
+      - name: Start iOS Simulator # Add this step for iOS
+        uses: futureware-tech/simulator-action@v1  # Install & Start simulator
+        with:
+          model: 'iPhone 15 Pro Max' # Choose your dswesired simulator model
 
-    - name: Build iOS app
-      run: |
-        flutter clean
-        flutter pub get
-        flutter run
+      - name: Build app
+        run:  flutter run -d "iPhone 15 Pro Max" --debug # Build iOS app
 
-    - name: Start iOS Simulator
-      run: |
-        sudo xcode-select --switch /Applications/Xcode_13.2.1.app/Contents/Developer
-        xcrun simctl boot "iPhone 12"
-        xcrun simctl bootstatus "iPhone 12"
+      - name: Install Dependencies (Maestro, IDB Companion)
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          brew tap facebook/fb
+          brew install facebook/fb/idb-companion
 
-    - name: Install Maestro
-      run: curl -Ls "https://get.maestro.mobile.dev" | bash
-
-    - name: Install Facebook IDB tool
-      run: |
-        brew tap facebook/fb
-        brew install facebook/fb/idb-companion
-
-    - name: Run tests
-      run: maestro test filename.yml
-      env:
-        FLUTTER_VERSION: stable # Use a specific version of Flutter, if needed
-
-    - name: Shutdown iOS Simulator
-      if: always()
-      run: xcrun simctl shutdown "iPhone 12"
+      - name: Run Maestro Tests
+        run: maestro test test.yml  # Use the full path to filename.yml
+        env:
+          FLUTTER_VERSION: stable
