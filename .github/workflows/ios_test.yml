@@ -30,6 +30,8 @@ jobs:
       - name: Install Dependencies (Maestro, IDB Companion)
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash
+          export PATH="$PATH":"$HOME/.maestro/bin"
+          maestro 
           brew tap facebook/fb
           brew install facebook/fb/idb-companion
 
