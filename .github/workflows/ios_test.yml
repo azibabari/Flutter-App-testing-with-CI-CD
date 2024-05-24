@@ -30,10 +30,7 @@ jobs:
       - name: Install Maestro
         run: |
           curl -Ls "https://get.maestro.mobile.dev" | bash --output maestro
-          chmod +x maestro
-          mkdir -p $HOME/maestro/bin
-          mv maestro $HOME/maestro/bin
-          echo "export PATH=\"\$PATH:\$HOME/maestro/bin\"" >> $GITHUB_ENV
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
           maestro -v
           
       - name: Install Dependencies (Maestro, IDB Companion)
