@@ -40,6 +40,6 @@ jobs:
           brew install facebook/fb/idb-companion
 
       - name: Run Maestro Test
-        run: maestro test test.yml  # Use the full path to filename.yml
+        run: maestro test .maestro/test.yml  # Use the full path to filename.yml
         env:
           FLUTTER_VERSION: stable
